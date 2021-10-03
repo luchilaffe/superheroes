@@ -33,4 +33,13 @@ public interface SuperHeroesService {
      * @return a list with all super heores that satisfies the condition.
      */
     List<SuperHeroesDto> searchByName(String name);
+
+    /**
+     * Service that update the Super Heroe indicated by its Id, with the given data.
+     * 
+     * @param id of the super hero that will be updated.
+     * @param superHero cointains the data to be set in the super Hero.
+     * @return the updated Super Heroe with the given Id.
+     */
+    SuperHeroesDto update(Long id, SuperHeroesDto superHero);
 }

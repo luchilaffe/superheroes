@@ -31,6 +31,7 @@ public class SuperHeroesController {
     /**
      * Method that get the Super Heroe with the given Id.
      * 
+     * @param id of the super hero that is searched
      * @return the super heroe with the given Id.
      */
     public SuperHeroesDto get(Long id) {
@@ -40,10 +41,22 @@ public class SuperHeroesController {
     /**
      * Method that get all the Super Heroe with the given string in its name.
      * 
+     * @param name string to be search in the name of the super heroes
      * @return a list with all super heores that satisfies the condition
      */
     public List<SuperHeroesDto> searchByName(String name) {
         return service.searchByName(name);
+    }
+
+    /**
+     * Method that update the Super Heroe indicated by its Id, with the given data.
+     * 
+     * @param id of the super hero that will be updated.
+     * @param superHero cointains the data to be set in the super Hero.
+     * @return the updated Super Heroe with the given Id.
+     */
+    public SuperHeroesDto update(Long id, SuperHeroesDto superHero) {
+        return service.update(id, superHero);
     }
 
 }

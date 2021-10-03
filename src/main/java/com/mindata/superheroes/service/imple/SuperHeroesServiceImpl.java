@@ -51,4 +51,15 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
                 .map(sH -> SuperHeroesMapper.toSuperHeroesDto(sH)).collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SuperHeroesDto update(Long id, SuperHeroesDto superHero) {
+        SuperHeroes superHeroToUpdate = repository.findById(id).orElseGet(() -> new SuperHeroes());
+        superHeroToUpdate.setName(superHero.getName());
+        repository.save(superHeroToUpdate);
+        return SuperHeroesMapper.toSuperHeroesDto(superHeroToUpdate);
+    }
+
 }
