@@ -16,8 +16,6 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
 
     private SuperHeroesRepository repository;
 
-
-
     SuperHeroesServiceImpl(SuperHeroesRepository superHeroesRepository) {
         this.repository = superHeroesRepository;
     }
