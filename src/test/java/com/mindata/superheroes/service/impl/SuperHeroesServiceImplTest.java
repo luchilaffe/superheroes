@@ -98,4 +98,27 @@ public class SuperHeroesServiceImplTest {
         verifyNoMoreInteractions(superHeroesRepository);
     }
 
+    @Test
+    void whenSearchByNameThenReturnOk() {
+
+        String stringToSearch = "a";
+
+        /* Mock called methods */
+        when(superHeroesRepository.findByNameIsContainingIgnoreCase(stringToSearch))
+                .thenReturn(superHeroesList);
+
+        /* Call Method */
+        List<SuperHeroesDto> response = superHeroesService.searchByName(stringToSearch);
+
+        /* Asserts */
+        assertEquals(superHeroesDtoList.get(0).getName(), response.get(0).getName());
+        assertEquals(superHeroesDtoList.get(1).getName(), response.get(1).getName());
+        assertEquals(superHeroesDtoList.get(2).getName(), response.get(2).getName());
+        assertEquals(superHeroesDtoList.size(), response.size());
+        verify(superHeroesRepository, atLeastOnce())
+                .findByNameIsContainingIgnoreCase(stringToSearch);
+        verify(superHeroesRepository).findByNameIsContainingIgnoreCase(stringToSearch);
+        verifyNoMoreInteractions(superHeroesRepository);
+    }
+
 }
