@@ -31,6 +31,7 @@ class SuperHeroesControllerTest {
     @BeforeAll
     static void setup() {
         superOne = new SuperHeroesDto();
+        superOne.setId(1L);
         superOne.setName("SuperMan");
         superTwo = new SuperHeroesDto();
         superTwo.setName("SpiderMan");
@@ -56,6 +57,22 @@ class SuperHeroesControllerTest {
         assertEquals(superHeroesDtoList, response);
         verify(superHeroesService, atLeastOnce()).getAll();
         verify(superHeroesService).getAll();
+        verifyNoMoreInteractions(superHeroesService);
+    }
+
+    @Test
+    void whenGetOneThenReturnOk() {
+
+        /* Mock called methods */
+        when(superHeroesService.get(superOne.getId())).thenReturn(superOne);
+
+        /* Call method */
+        SuperHeroesDto response = superHeroesController.get(superOne.getId());
+
+        /* Asserts */
+        assertEquals(superOne, response);
+        verify(superHeroesService, atLeastOnce()).get(superOne.getId());
+        verify(superHeroesService).get(superOne.getId());
         verifyNoMoreInteractions(superHeroesService);
     }
 
