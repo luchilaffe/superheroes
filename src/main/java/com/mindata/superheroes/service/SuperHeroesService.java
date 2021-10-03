@@ -18,4 +18,11 @@ public interface SuperHeroesService {
      */
     List<SuperHeroesDto> getAll();
 
+    /**
+     * Service that returns the Super Heroe with the given Id.
+     * 
+     * @param id of the Super Heroe to search.
+     * @return the found Super Heroe.
+     */
+    SuperHeroesDto get(Long id);
 }

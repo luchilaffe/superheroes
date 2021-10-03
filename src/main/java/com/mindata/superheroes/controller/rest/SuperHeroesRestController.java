@@ -2,6 +2,7 @@ package com.mindata.superheroes.controller.rest;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.mindata.superheroes.controller.SuperHeroesController;
 import com.mindata.superheroes.dto.SuperHeroesDto;
@@ -31,5 +32,14 @@ public class SuperHeroesRestController {
         return controller.getAll();
     }
 
+    /**
+     * Get one Super Heroe, with the given id.
+     * 
+     * @return the Super Heroe with the given Id.
+     */
+    @GetMapping(RestEndpoints.GET + "/{id}")
+    public SuperHeroesDto get(@PathVariable Long id) {
+        return controller.get(id);
+    }
 
 }

@@ -33,6 +33,7 @@ class SuperHeroesRestControllerTest {
     @BeforeAll
     static void setup() {
         superOne = new SuperHeroesDto();
+        superOne.setId(1L);
         superOne.setName("SuperMan");
         superTwo = new SuperHeroesDto();
         superTwo.setName("SpiderMan");
@@ -48,12 +49,30 @@ class SuperHeroesRestControllerTest {
     @Test
     void whenGetAllThenReturnOk() throws Exception {
 
+        /* Mock called method */
         when(superHeroesController.getAll()).thenReturn(superHeroesDtoList);
 
+        /* Call method */
         this.mockMvc.perform(get(RestEndpoints.GET_ALL)).andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty()).andReturn();
 
+        /* Asserts */
         verify(superHeroesController).getAll();
+        verifyNoMoreInteractions(superHeroesController);
+    }
+
+    @Test
+    void whenGetOneThenReturnOk() throws Exception {
+
+        /* Mock called method */
+        when(superHeroesController.get(superOne.getId())).thenReturn(superOne);
+
+        /* Call method */
+        this.mockMvc.perform(get(RestEndpoints.GET + "/" + superOne.getId().toString()))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty()).andReturn();
+
+        /* Asserts */
+        verify(superHeroesController).get(superOne.getId());
         verifyNoMoreInteractions(superHeroesController);
     }
 }
