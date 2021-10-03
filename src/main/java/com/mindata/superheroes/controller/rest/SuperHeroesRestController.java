@@ -3,6 +3,7 @@ package com.mindata.superheroes.controller.rest;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.mindata.superheroes.controller.SuperHeroesController;
 import com.mindata.superheroes.dto.SuperHeroesDto;
@@ -40,6 +41,16 @@ public class SuperHeroesRestController {
     @GetMapping(RestEndpoints.GET + "/{id}")
     public SuperHeroesDto get(@PathVariable Long id) {
         return controller.get(id);
+    }
+
+    /**
+     * Method that get all the Super Heroe with the given string in its name.
+     * 
+     * @return a list with all super heores that satisfies the condition
+     */
+    @GetMapping(RestEndpoints.SEARCH)
+    public List<SuperHeroesDto> get(@RequestParam("name") String name) {
+        return controller.searchByName(name);
     }
 
 }

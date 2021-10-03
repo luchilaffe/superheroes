@@ -25,4 +25,12 @@ public interface SuperHeroesService {
      * @return the found Super Heroe.
      */
     SuperHeroesDto get(Long id);
+
+    /**
+     * Method that get all the Super Heroe with the given string in its name.
+     * 
+     * @param name to search
+     * @return a list with all super heores that satisfies the condition.
+     */
+    List<SuperHeroesDto> searchByName(String name);
 }

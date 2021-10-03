@@ -37,4 +37,13 @@ public class SuperHeroesController {
         return service.get(id);
     }
 
+    /**
+     * Method that get all the Super Heroe with the given string in its name.
+     * 
+     * @return a list with all super heores that satisfies the condition
+     */
+    public List<SuperHeroesDto> searchByName(String name) {
+        return service.searchByName(name);
+    }
+
 }

@@ -75,4 +75,21 @@ class SuperHeroesRestControllerTest {
         verify(superHeroesController).get(superOne.getId());
         verifyNoMoreInteractions(superHeroesController);
     }
+
+    @Test
+    void whenFindByNameThenReturnOk() throws Exception {
+
+        String stringToSearch = "man";
+
+        /* Mock called method */
+        when(superHeroesController.searchByName(stringToSearch)).thenReturn(superHeroesDtoList);
+
+        /* Call method */
+        this.mockMvc.perform(get(RestEndpoints.SEARCH + "?name=" + stringToSearch))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty()).andReturn();
+
+        /* Asserts */
+        verify(superHeroesController).searchByName(stringToSearch);
+        verifyNoMoreInteractions(superHeroesController);
+    }
 }

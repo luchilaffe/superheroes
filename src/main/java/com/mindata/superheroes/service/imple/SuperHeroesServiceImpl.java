@@ -42,4 +42,13 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<SuperHeroesDto> searchByName(String name) {
+        return repository.findByNameIsContainingIgnoreCase(name).stream()
+                .map(sH -> SuperHeroesMapper.toSuperHeroesDto(sH)).collect(Collectors.toList());
+    }
+
 }
