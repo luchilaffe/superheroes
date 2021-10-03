@@ -76,4 +76,22 @@ class SuperHeroesControllerTest {
         verifyNoMoreInteractions(superHeroesService);
     }
 
+    @Test
+    void whenSearchByNameThenReturnOk() {
+
+        String stringToSearch = "Man";
+
+        /* Mock called methods */
+        when(superHeroesService.searchByName(stringToSearch)).thenReturn(superHeroesDtoList);
+
+        /* Call method */
+        List<SuperHeroesDto> response = superHeroesController.searchByName(stringToSearch);
+
+        /* Asserts */
+        assertEquals(superHeroesDtoList, response);
+        verify(superHeroesService, atLeastOnce()).searchByName(stringToSearch);
+        verify(superHeroesService).searchByName(stringToSearch);
+        verifyNoMoreInteractions(superHeroesService);
+    }
+
 }
