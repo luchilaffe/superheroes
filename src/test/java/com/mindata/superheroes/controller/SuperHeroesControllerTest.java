@@ -3,6 +3,7 @@ package com.mindata.superheroes.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ class SuperHeroesControllerTest {
         /* Asserts */
         assertEquals(superHeroesDtoList, response);
         verify(superHeroesService, atLeastOnce()).getAll();
+        verify(superHeroesService).getAll();
+        verifyNoMoreInteractions(superHeroesService);
     }
 
 }
