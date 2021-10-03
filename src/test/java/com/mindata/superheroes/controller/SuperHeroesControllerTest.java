@@ -94,4 +94,20 @@ class SuperHeroesControllerTest {
         verifyNoMoreInteractions(superHeroesService);
     }
 
+    @Test
+    void whenUpdateOneThenReturnOk() {
+
+        /* Mock called methods */
+        when(superHeroesService.update(superOne.getId(), superOne)).thenReturn(superTwo);
+
+        /* Call method */
+        SuperHeroesDto response = superHeroesController.update(superOne.getId(), superOne);
+
+        /* Asserts */
+        assertEquals(superTwo, response);
+        verify(superHeroesService, atLeastOnce()).update(superOne.getId(), superOne);
+        verify(superHeroesService).update(superOne.getId(), superOne);
+        verifyNoMoreInteractions(superHeroesService);
+    }
+
 }

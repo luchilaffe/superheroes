@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import com.mindata.superheroes.model.SuperHeroes;
 import com.mindata.superheroes.service.imple.SuperHeroesServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class SuperHeroesServiceImplTest {
+class SuperHeroesServiceImplTest {
 
     @InjectMocks
     SuperHeroesServiceImpl superHeroesService;
@@ -36,12 +37,8 @@ public class SuperHeroesServiceImplTest {
     @BeforeAll
     static void setup() {
         superOne = new SuperHeroes();
-        superOne.setId(1L);
-        superOne.setName("SuperMan");
         superTwo = new SuperHeroes();
-        superTwo.setName("SpiderMan");
         superThree = new SuperHeroes();
-        superThree.setName("Garfield");
 
         superHeroesList = new ArrayList<SuperHeroes>();
         superHeroesList.add(superOne);
@@ -60,6 +57,15 @@ public class SuperHeroesServiceImplTest {
         superHeroesDtoList.add(superDtoOne);
         superHeroesDtoList.add(superDtoTwo);
         superHeroesDtoList.add(superDtoThree);
+    }
+
+    @BeforeEach
+    void setupValues() {
+        superOne.setId(1L);
+        superOne.setName("SuperMan");
+        superTwo.setName("SpiderMan");
+        superThree.setName("Garfield");
+
     }
 
     @Test
@@ -119,6 +125,22 @@ public class SuperHeroesServiceImplTest {
                 .findByNameIsContainingIgnoreCase(stringToSearch);
         verify(superHeroesRepository).findByNameIsContainingIgnoreCase(stringToSearch);
         verifyNoMoreInteractions(superHeroesRepository);
+    }
+
+    @Test
+    void whenUpdateOneThenReturnOk() {
+
+        /* Mock called methods */
+        when(superHeroesRepository.findById(superOne.getId())).thenReturn(Optional.of(superOne));
+
+        /* Call Method */
+        SuperHeroesDto response = superHeroesService.update(superOne.getId(), superDtoTwo);
+
+        /* Asserts */
+        assertEquals(superDtoOne.getId(), response.getId());
+        assertEquals(superDtoTwo.getName(), response.getName());
+        verify(superHeroesRepository, atLeastOnce()).findById(superOne.getId());
+        verify(superHeroesRepository).findById(superOne.getId());
     }
 
 }
