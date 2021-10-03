@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +36,7 @@ public class SuperHeroesServiceImplTest {
     @BeforeAll
     static void setup() {
         superOne = new SuperHeroes();
+        superOne.setId(1L);
         superOne.setName("SuperMan");
         superTwo = new SuperHeroes();
         superTwo.setName("SpiderMan");
@@ -47,6 +49,7 @@ public class SuperHeroesServiceImplTest {
         superHeroesList.add(superThree);
 
         superDtoOne = new SuperHeroesDto();
+        superDtoOne.setId(1L);
         superDtoOne.setName("SuperMan");
         superDtoTwo = new SuperHeroesDto();
         superDtoTwo.setName("SpiderMan");
@@ -75,6 +78,23 @@ public class SuperHeroesServiceImplTest {
         assertEquals(superHeroesDtoList.size(), response.size());
         verify(superHeroesRepository, atLeastOnce()).findAll();
         verify(superHeroesRepository).findAll();
+        verifyNoMoreInteractions(superHeroesRepository);
+    }
+
+    @Test
+    void whenGetOneThenReturnOk() {
+
+        /* Mock called methods */
+        when(superHeroesRepository.findById(superOne.getId())).thenReturn(Optional.of(superOne));
+
+        /* Call Method */
+        SuperHeroesDto response = superHeroesService.get(superOne.getId());
+
+        /* Asserts */
+        assertEquals(superDtoOne.getId(), response.getId());
+        assertEquals(superDtoOne.getName(), response.getName());
+        verify(superHeroesRepository, atLeastOnce()).findById(superOne.getId());
+        verify(superHeroesRepository).findById(superOne.getId());
         verifyNoMoreInteractions(superHeroesRepository);
     }
 
