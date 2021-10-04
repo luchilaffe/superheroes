@@ -110,4 +110,36 @@ class SuperHeroesControllerTest {
         verifyNoMoreInteractions(superHeroesService);
     }
 
+    @Test
+    void whenDeleteOneThenReturnTrue() {
+
+        /* Mock called methods */
+        when(superHeroesService.delete(superOne.getId())).thenReturn(Boolean.TRUE);
+
+        /* Call method */
+        Boolean response = superHeroesController.delete(superOne.getId());
+
+        /* Asserts */
+        assertEquals(Boolean.TRUE, response);
+        verify(superHeroesService, atLeastOnce()).delete(superOne.getId());
+        verify(superHeroesService).delete(superOne.getId());
+        verifyNoMoreInteractions(superHeroesService);
+    }
+
+    @Test
+    void whenDeleteOneThenReturnFalse() {
+
+        /* Mock called methods */
+        when(superHeroesService.delete(superOne.getId())).thenReturn(Boolean.FALSE);
+
+        /* Call method */
+        Boolean response = superHeroesController.delete(superOne.getId());
+
+        /* Asserts */
+        assertEquals(Boolean.FALSE, response);
+        verify(superHeroesService, atLeastOnce()).delete(superOne.getId());
+        verify(superHeroesService).delete(superOne.getId());
+        verifyNoMoreInteractions(superHeroesService);
+    }
+
 }

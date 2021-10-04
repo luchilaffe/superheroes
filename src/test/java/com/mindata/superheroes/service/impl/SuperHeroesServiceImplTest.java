@@ -143,4 +143,22 @@ class SuperHeroesServiceImplTest {
         verify(superHeroesRepository).findById(superOne.getId());
     }
 
+    @Test
+    void whenDeleteOneThenReturnTrue() {
+
+        /* Mock called methods */
+        when(superHeroesRepository.findById(superOne.getId())).thenReturn(Optional.of(superOne));
+
+        /* Call Method */
+        Boolean response = superHeroesService.delete(superOne.getId());
+
+        /* Asserts */
+        assertEquals(Boolean.TRUE, response);
+        verify(superHeroesRepository, atLeastOnce()).findById(superOne.getId());
+        verify(superHeroesRepository).findById(superOne.getId());
+        verify(superHeroesRepository, atLeastOnce()).deleteById(superOne.getId());
+        verify(superHeroesRepository).deleteById(superOne.getId());
+        verifyNoMoreInteractions(superHeroesRepository);
+    }
+
 }
