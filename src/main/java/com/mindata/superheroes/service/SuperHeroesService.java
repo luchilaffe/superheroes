@@ -42,4 +42,13 @@ public interface SuperHeroesService {
      * @return the updated Super Heroe with the given Id.
      */
     SuperHeroesDto update(Long id, SuperHeroesDto superHero);
+
+    /**
+     * Service that delete the Super Heroe with the given Id.
+     * 
+     * @param id of the Super Heroe to delete.
+     * @return boolean that confirm the operation.
+     */
+    Boolean delete(Long id);
+
 }

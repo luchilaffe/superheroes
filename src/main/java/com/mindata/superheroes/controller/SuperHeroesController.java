@@ -59,4 +59,14 @@ public class SuperHeroesController {
         return service.update(id, superHero);
     }
 
+    /**
+     * Method that delete the Super Heroe with the given Id.
+     * 
+     * @param id of the super hero that would be deleted
+     * @return boolean that confirm the operation.
+     */
+    public Boolean delete(Long id) {
+        return service.delete(id);
+    }
+
 }

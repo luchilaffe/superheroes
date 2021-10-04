@@ -117,4 +117,22 @@ class SuperHeroesRestControllerTest {
         /* Call Method */
         this.mockMvc.perform(request).andExpect(status().isOk()).andReturn();
     }
+
+    @Test
+    void whenDeleteOneThenReturnOk() throws Exception {
+
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.delete(RestEndpoints.DELETE + "/" + superOne.getId())
+                        .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        /* Mock called method */
+        when(superHeroesController.delete(superOne.getId())).thenReturn(Boolean.TRUE);
+
+        /* Call Method */
+        this.mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+
+        /* Asserts */
+        verify(superHeroesController).delete(superOne.getId());
+        verifyNoMoreInteractions(superHeroesController);
+    }
 }

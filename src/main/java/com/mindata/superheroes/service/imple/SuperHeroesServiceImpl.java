@@ -1,6 +1,7 @@
 package com.mindata.superheroes.service.imple;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.mindata.superheroes.dao.SuperHeroesRepository;
@@ -60,6 +61,20 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
         superHeroToUpdate.setName(superHero.getName());
         repository.save(superHeroToUpdate);
         return SuperHeroesMapper.toSuperHeroesDto(superHeroToUpdate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean delete(Long id) {
+        Optional<SuperHeroes> sH = repository.findById(id);
+        if (sH.isPresent()) {
+            repository.deleteById(id);
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
 }

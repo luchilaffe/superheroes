@@ -10,5 +10,6 @@ public class RestEndpoints {
     public static final String GET = ROOT;
     public static final String SEARCH = ROOT + "/search";
     public static final String UPDATE = ROOT;
+    public static final String DELETE = ROOT;
 
 }

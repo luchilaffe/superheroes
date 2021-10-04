@@ -1,6 +1,7 @@
 package com.mindata.superheroes.controller.rest;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,6 +64,16 @@ public class SuperHeroesRestController {
     @PutMapping(RestEndpoints.UPDATE + "/{id}")
     public SuperHeroesDto update(@PathVariable Long id, @RequestBody SuperHeroesDto superHero) {
         return controller.update(id, superHero);
+    }
+
+    /**
+     * Method that delete the Super Heroe indicated by its Id.
+     * 
+     * @return boolean that confirm the operation.
+     */
+    @DeleteMapping(RestEndpoints.DELETE + "/{id}")
+    public Boolean delete(@PathVariable Long id) {
+        return controller.delete(id);
     }
 
 }
