@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.mindata.superheroes.dao.SuperHeroesRepository;
 import com.mindata.superheroes.dto.SuperHeroesDto;
+import com.mindata.superheroes.exceptions.NotFoundException;
 import com.mindata.superheroes.model.SuperHeroes;
 import com.mindata.superheroes.service.SuperHeroesService;
 import com.mindata.superheroes.utils.SuperHeroesMapper;
@@ -27,8 +28,13 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
      */
     @Override
     public List<SuperHeroesDto> getAll() {
-        return repository.findAll().stream().map(sH -> SuperHeroesMapper.toSuperHeroesDto(sH))
-                .collect(Collectors.toList());
+        List<SuperHeroesDto> response = repository.findAll().stream()
+                .map(sH -> SuperHeroesMapper.toSuperHeroesDto(sH)).collect(Collectors.toList());
+        if (!response.isEmpty()) {
+            return response;
+        } else {
+            throw new NotFoundException("There are no Superheroes.");
+        }
     }
 
     /**
@@ -40,7 +46,7 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
         if (null != superHero) {
             return SuperHeroesMapper.toSuperHeroesDto(superHero);
         }
-        return null;
+        throw new NotFoundException("Not found ID: " + id);
     }
 
     /**
@@ -48,8 +54,13 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
      */
     @Override
     public List<SuperHeroesDto> searchByName(String name) {
-        return repository.findByNameIsContainingIgnoreCase(name).stream()
+        List<SuperHeroesDto> response = repository.findByNameIsContainingIgnoreCase(name).stream()
                 .map(sH -> SuperHeroesMapper.toSuperHeroesDto(sH)).collect(Collectors.toList());
+        if (!response.isEmpty()) {
+            return response;
+        } else {
+            throw new NotFoundException("Not found name with: " + name);
+        }
     }
 
     /**
@@ -73,7 +84,7 @@ public class SuperHeroesServiceImpl implements SuperHeroesService {
             repository.deleteById(id);
             return Boolean.TRUE;
         } else {
-            return Boolean.FALSE;
+            throw new NotFoundException("Not found ID: " + id);
         }
     }
 
