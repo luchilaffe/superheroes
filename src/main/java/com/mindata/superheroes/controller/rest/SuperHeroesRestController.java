@@ -1,6 +1,9 @@
 package com.mindata.superheroes.controller.rest;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +25,11 @@ public class SuperHeroesRestController {
 
     private SuperHeroesController controller;
 
+    private CacheControl cacheControl;
+
     SuperHeroesRestController(SuperHeroesController superHeroesController) {
         this.controller = superHeroesController;
+        this.cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
     }
 
     /**
@@ -32,8 +38,8 @@ public class SuperHeroesRestController {
      * @return a list with all the Super Heroes
      */
     @GetMapping(RestEndpoints.GET_ALL)
-    public List<SuperHeroesDto> getAll() {
-        return controller.getAll();
+    public ResponseEntity<List<SuperHeroesDto>> getAll() {
+        return ResponseEntity.ok().cacheControl(this.cacheControl).body(controller.getAll());
     }
 
     /**
@@ -42,8 +48,8 @@ public class SuperHeroesRestController {
      * @return the Super Heroe with the given Id.
      */
     @GetMapping(RestEndpoints.GET + "/{id}")
-    public SuperHeroesDto get(@PathVariable Long id) {
-        return controller.get(id);
+    public ResponseEntity<SuperHeroesDto> get(@PathVariable Long id) {
+        return ResponseEntity.ok().cacheControl(this.cacheControl).body(controller.get(id));
     }
 
     /**
@@ -52,8 +58,9 @@ public class SuperHeroesRestController {
      * @return a list with all super heores that satisfies the condition
      */
     @GetMapping(RestEndpoints.SEARCH)
-    public List<SuperHeroesDto> get(@RequestParam("name") String name) {
-        return controller.searchByName(name);
+    public ResponseEntity<List<SuperHeroesDto>> get(@RequestParam("name") String name) {
+        return ResponseEntity.ok().cacheControl(this.cacheControl)
+                .body(controller.searchByName(name));
     }
 
     /**
