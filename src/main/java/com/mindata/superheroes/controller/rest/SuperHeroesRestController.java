@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.mindata.superheroes.annotation.RunTimeCounter;
 import com.mindata.superheroes.controller.SuperHeroesController;
 import com.mindata.superheroes.dto.SuperHeroesDto;
 import com.mindata.superheroes.utils.RestEndpoints;
@@ -37,6 +38,7 @@ public class SuperHeroesRestController {
      * 
      * @return a list with all the Super Heroes
      */
+    @RunTimeCounter
     @GetMapping(RestEndpoints.GET_ALL)
     public ResponseEntity<List<SuperHeroesDto>> getAll() {
         return ResponseEntity.ok().cacheControl(this.cacheControl).body(controller.getAll());
@@ -47,6 +49,7 @@ public class SuperHeroesRestController {
      * 
      * @return the Super Heroe with the given Id.
      */
+    @RunTimeCounter
     @GetMapping(RestEndpoints.GET + "/{id}")
     public ResponseEntity<SuperHeroesDto> get(@PathVariable Long id) {
         return ResponseEntity.ok().cacheControl(this.cacheControl).body(controller.get(id));
