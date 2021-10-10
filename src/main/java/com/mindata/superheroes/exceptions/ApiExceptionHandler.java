@@ -2,6 +2,7 @@ package com.mindata.superheroes.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +29,14 @@ public class ApiExceptionHandler {
     @ExceptionHandler({ForbiddenException.class})
     @ResponseBody
     public ErrorMessage forbiddenRequest(HttpServletRequest request, Exception exception) {
+        return new ErrorMessage(exception, request.getRequestURI());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({BadCredentialsException.class})
+    @ResponseBody
+    public ErrorMessage badCredentialsExceptionRequest(HttpServletRequest request,
+            Exception exception) {
         return new ErrorMessage(exception, request.getRequestURI());
     }
 
