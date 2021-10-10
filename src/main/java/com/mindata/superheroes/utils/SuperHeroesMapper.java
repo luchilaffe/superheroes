@@ -5,6 +5,11 @@ import com.mindata.superheroes.model.SuperHeroes;
 
 public class SuperHeroesMapper {
 
+    /**
+     * Constructor
+     */
+    private SuperHeroesMapper() {}
+
     public static SuperHeroesDto toSuperHeroesDto(SuperHeroes superHeroe) {
         SuperHeroesDto response = new SuperHeroesDto();
         response.setId(superHeroe.getId());

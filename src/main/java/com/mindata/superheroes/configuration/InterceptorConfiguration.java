@@ -15,6 +15,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(runTimeCounterInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(runTimeCounterInterceptor)
+                // Add routes where it should not be applied
+                .excludePathPatterns("/users**")
+                // Add routes where it should be applied
+                .addPathPatterns("/superheroes**");
     }
 }
