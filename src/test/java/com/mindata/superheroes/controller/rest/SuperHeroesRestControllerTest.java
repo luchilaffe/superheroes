@@ -3,6 +3,7 @@ package com.mindata.superheroes.controller.rest;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,9 +13,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,7 +27,8 @@ import com.mindata.superheroes.controller.SuperHeroesController;
 import com.mindata.superheroes.dto.SuperHeroesDto;
 import com.mindata.superheroes.utils.RestEndpoints;
 
-@WebMvcTest({SuperHeroesRestController.class})
+@SpringBootTest
+@AutoConfigureMockMvc
 class SuperHeroesRestControllerTest {
 
     @Autowired
@@ -60,8 +64,10 @@ class SuperHeroesRestControllerTest {
         when(superHeroesController.getAll()).thenReturn(superHeroesDtoList);
 
         /* Call method */
-        this.mockMvc.perform(get(RestEndpoints.GET_ALL)).andExpect(status().isOk())
-                .andExpect(jsonPath("$").isNotEmpty()).andReturn();
+        this.mockMvc
+                .perform(get(RestEndpoints.GET_ALL).with(csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").password("admin")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty()).andReturn();
 
         /* Asserts */
         verify(superHeroesController).getAll();
@@ -75,7 +81,9 @@ class SuperHeroesRestControllerTest {
         when(superHeroesController.get(superOne.getId())).thenReturn(superOne);
 
         /* Call method */
-        this.mockMvc.perform(get(RestEndpoints.GET + "/" + superOne.getId().toString()))
+        this.mockMvc
+                .perform(get(RestEndpoints.GET + "/" + superOne.getId().toString()).with(csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").password("admin")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty()).andReturn();
 
         /* Asserts */
@@ -92,7 +100,9 @@ class SuperHeroesRestControllerTest {
         when(superHeroesController.searchByName(stringToSearch)).thenReturn(superHeroesDtoList);
 
         /* Call method */
-        this.mockMvc.perform(get(RestEndpoints.SEARCH + "?name=" + stringToSearch))
+        this.mockMvc
+                .perform(get(RestEndpoints.SEARCH + "?name=" + stringToSearch).with(csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").password("admin")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty()).andReturn();
 
         /* Asserts */
@@ -106,9 +116,11 @@ class SuperHeroesRestControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter objectWriter = mapper.writer().withDefaultPrettyPrinter();
         String operationJson = objectWriter.writeValueAsString(superOne);
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .put(RestEndpoints.UPDATE + "/" + superOne.getId()).content(operationJson)
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON_VALUE);
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.put(RestEndpoints.UPDATE + "/" + superOne.getId())
+                        .content(operationJson).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_VALUE).with(csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").password("admin"));
 
         /* Mock called method */
         when(superHeroesController.update(Mockito.anyLong(), Mockito.any(SuperHeroesDto.class)))
@@ -123,7 +135,8 @@ class SuperHeroesRestControllerTest {
 
         MockHttpServletRequestBuilder request =
                 MockMvcRequestBuilders.delete(RestEndpoints.DELETE + "/" + superOne.getId())
-                        .accept(MediaType.APPLICATION_JSON_VALUE);
+                        .accept(MediaType.APPLICATION_JSON_VALUE).with(csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").password("admin"));
 
         /* Mock called method */
         when(superHeroesController.delete(superOne.getId())).thenReturn(Boolean.TRUE);

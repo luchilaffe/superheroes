@@ -29,10 +29,7 @@ import com.mindata.superheroes.utils.RestEndpoints;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserDetailsService jwtUserDetailsService;
-
-    @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
@@ -42,6 +39,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * credentials. Use BCryptPasswordEncoder.
          */
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    public WebSecurityConfig(UserDetailsService jwtUserDetailsService,
+            JwtRequestFilter jwtRequestFilter) {
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Bean
