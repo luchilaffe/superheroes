@@ -1,4 +1,4 @@
-# API for superheroes with JWT Security
+# API for Super Heroes with JWT Security and HATEOAS
 
 ## First of all, to use it you should add a user with:
 * POST /users 
