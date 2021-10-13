@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mindata.superheroes.annotation.RunTimeCounter;
 import com.mindata.superheroes.controller.SuperHeroesController;
 import com.mindata.superheroes.dto.SuperHeroesDto;
+import com.mindata.superheroes.mapper.SuperHeroesModelAssembler;
 import com.mindata.superheroes.utils.RestEndpoints;
-import com.mindata.superheroes.utils.SuperHeroesModelAssembler;
 
 /**
  * Rest Controller that publish services of Super Heroes

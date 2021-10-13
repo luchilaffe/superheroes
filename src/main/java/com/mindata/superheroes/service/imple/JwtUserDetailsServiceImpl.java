@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.mindata.superheroes.dao.UsersRepository;
+import com.mindata.superheroes.mapper.UserMapper;
 import com.mindata.superheroes.model.Users;
-import com.mindata.superheroes.utils.UserMapper;
 
 /**
  * Implementation of UserDetailsService

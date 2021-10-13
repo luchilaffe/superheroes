@@ -1,4 +1,4 @@
-package com.mindata.superheroes.utils;
+package com.mindata.superheroes.mapper;
 
 import com.mindata.superheroes.dto.SuperHeroesDto;
 import com.mindata.superheroes.model.SuperHeroes;

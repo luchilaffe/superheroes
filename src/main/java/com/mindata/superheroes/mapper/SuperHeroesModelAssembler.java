@@ -1,4 +1,4 @@
-package com.mindata.superheroes.utils;
+package com.mindata.superheroes.mapper;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 

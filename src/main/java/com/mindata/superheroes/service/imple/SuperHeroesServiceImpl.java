@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import com.mindata.superheroes.dao.SuperHeroesRepository;
 import com.mindata.superheroes.dto.SuperHeroesDto;
 import com.mindata.superheroes.exceptions.NotFoundException;
+import com.mindata.superheroes.mapper.SuperHeroesMapper;
 import com.mindata.superheroes.model.SuperHeroes;
 import com.mindata.superheroes.service.SuperHeroesService;
-import com.mindata.superheroes.utils.SuperHeroesMapper;
 
 /**
  * {@inheritDoc}
